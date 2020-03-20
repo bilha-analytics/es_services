@@ -25,6 +25,7 @@ sourcez = {
     "WHO Director General" : r"https://www.who.int/dg/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020",
     "WHO Individual Control" : r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public",
     "WHO Preparedness" : r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/technical-guidance/critical-preparedness-readiness-and-response-actions-for-covid-19",
+    "WHO Africa cases" : r"https://www.afro.who.int/news/more-600-confirmed-cases-covid-19-africa", 
 
 }
 
