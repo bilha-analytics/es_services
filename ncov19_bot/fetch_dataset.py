@@ -4,6 +4,15 @@ import string
 
 
 sourcez = {
+    "Wikipedia 1": r"https://en.wikipedia.org/wiki/Timeline_of_the_2019%E2%80%9320_coronavirus_pandemic_in_February_2020",
+    "Wikipedia 2" : r"https://en.wikipedia.org/wiki/2019%E2%80%9320_coronavirus_pandemic",
+    #"MOH intro" : r"http://www.health.go.ke/covid-19/",  # lots of pdfs to parse 
+    "NM article1": r"https://www.nation.co.ke/news/Covid-19-world-struggles-to-stop-handshake/1056-5497542-a0gos4z/index.html",
+    "NM article2": r"https://www.nation.co.ke/newsplex/2718262-5496412-11gimflz/index.html",
+    "NM article3" : r"https://www.nation.co.ke/oped/blogs/dot9/ndemo/2274486-5492926-awxihq/index.html",
+    "Norwat article1" : r"https://www.norway.no/contentassets/ab00f23534c844bb961df1fadc9e44a8/information-note-regarding-ncovid-19-domestic-procedures-20200312_-final.pdf", 
+    "Economist article1" : r"https://www.economist.com/europe/2020/02/23/italy-faces-a-sudden-surge-in-covid-19-cases",
+    "MOH press release" : r"http://www.health.go.ke/wp-content/uploads/2020/03/press-statement-19th-march.pdf", 
     "CDC Situation Summary" : r"https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/summary.html",
     "CDC Home Self-care" : r"https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/caring-for-yourself-at-home.html",
     "CDC Facility Control" : r"https://www.cdc.gov/coronavirus/2019-ncov/infection-control/control-recommendations.html",
