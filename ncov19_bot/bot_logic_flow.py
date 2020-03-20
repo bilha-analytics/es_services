@@ -42,9 +42,9 @@ def runBot():
     retriever_model.initialize() 
 
     while flag:
-        user_input = input( "Talk to me >>>: ") 
+        user_input = input( "\033[94m Talk to me >>>: \033[0m") 
 
-        response = "\t>>>: "
+        response = "\033[92m \033[1m >>>: \033[0m"
 
         was_que = True
         for word in user_input.split():
@@ -58,14 +58,14 @@ def runBot():
                 was_que = False
                 break
             elif word in EXIT_INPUT:
-                response += random.choice( EXIT_RESPONSE )
-                was_que = False
+                response += random.choice( THANKS_RESPONSE )+" "+random.choice( EXIT_RESPONSE ) 
+                print( "{}\n".format(response )  )
                 return(0) 
 
         if was_que:
                 response += inputResponse( user_input )
 
-        print( response ) 
+        print( "{}\n".format(response )  )
         
 
 
