@@ -22,6 +22,7 @@ sourcez = {
     "CDC LT Prep" : r"https://www.cdc.gov/coronavirus/2019-ncov/healthcare-facilities/prevent-spread-in-long-term-care-facilities.html",
     "CDC Discontinue Isolation" : r"https://www.cdc.gov/coronavirus/2019-ncov/hcp/disposition-in-home-patients.html",
     "WHO Intro" : r"https://www.who.int/health-topics/coronavirus",
+    "WHO rolling updates" :r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/events-as-they-happen",
     "WHO Director General" : r"https://www.who.int/dg/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020",
     "WHO Individual Control" : r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public",
     "WHO Preparedness" : r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/technical-guidance/critical-preparedness-readiness-and-response-actions-for-covid-19",

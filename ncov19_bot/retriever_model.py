@@ -13,7 +13,7 @@ _modelTfidVec = None
 
 def presetCorpusTfidf():
     global _modelTfidVec
-    _modelTfidVec = TfidfVectorizer( tokenizer=fetch_dataset.preProcessText, stop_words="english")
+    _modelTfidVec = TfidfVectorizer( tokenizer=fetch_dataset.preProcessText, stop_words="english", ngram_range=(1,3) )
     
 def tfidf_fetchQueResponse(input_text): 
     sent_tokenz = fetch_dataset._sentz.copy()
@@ -29,7 +29,7 @@ def tfidf_fetchQueResponse(input_text):
     if resp == 0:
         return "I'm sorry, I don't understand. Try again"
     else:
-        return "{} {} {}".format(sent_tokenz[ idx ] , sent_tokenz[ idx+1], sent_tokenz[ idx+2]  )
+        return "{} {} {}\n\t{} {}".format(sent_tokenz[ idx ] , sent_tokenz[ idx+1], sent_tokenz[ idx+2], sent_tokenz[idx-1], sent_tokenz[idx-2])
 
 
 def initialize():    

@@ -14,7 +14,7 @@ EXIT_INPUT = ["bye", "later", "baadaye", "quit"]
 EXIT_RESPONSE = ["bye", 'later', 'talk again soon', 'baadaye', 'great chatting with you']
 
 THANKS_INPUT = ['thanks', 'sounds good', 'asante', 'shukurani', 'shukran']
-THANKS_RESPONSE = ["you're welcome", "glad to be of help", "anytime", 'would you like anything else', 'happy to be of assistance']
+THANKS_RESPONSE = ["you're welcome", "glad to be of help", "anytime",  'happy to be of assistance']
 
 _model = None
 
