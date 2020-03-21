@@ -1,0 +1,17 @@
+Wikipedia 1  ; https://en.wikipedia.org/wiki/Timeline_of_the_2019%E2%80%9320_coronavirus_pandemic_in_February_2020 
+Wikipedia 2   ; https://en.wikipedia.org/wiki/2019%E2%80%9320_coronavirus_pandemic 
+NM article1  ; https://www.nation.co.ke/news/Covid-19-world-struggles-to-stop-handshake/1056-5497542-a0gos4z/index.html 
+NM article2  ; https://www.nation.co.ke/newsplex/2718262-5496412-11gimflz/index.html 
+NM article3   ; https://www.nation.co.ke/oped/blogs/dot9/ndemo/2274486-5492926-awxihq/index.html 
+Economist article1   ; https://www.economist.com/europe/2020/02/23/italy-faces-a-sudden-surge-in-covid-19-cases 
+CDC Situation Summary   ; https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/summary.html 
+CDC Home Self-care   ; https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/caring-for-yourself-at-home.html 
+CDC Individual Control   ; https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/steps-when-sick.html 
+CDC Symptoms   ; https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/symptoms.html?CDC_AA_refVal=https%3A%2F%2Fwww.cdc.gov%2Fcoronavirus%2F2019-ncov%2Fabout%2Fsymptoms.html  
+CDC Discontinue Isolation   ; https://www.cdc.gov/coronavirus/2019-ncov/hcp/disposition-in-home-patients.html 
+WHO Intro   ; https://www.who.int/health-topics/coronavirus 
+WHO rolling updates  ; https://www.who.int/emergencies/diseases/novel-coronavirus-2019/events-as-they-happen 
+WHO Director General   ; https://www.who.int/dg/speeches/detail/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020 
+WHO Individual Control   ; https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public 
+WHO Preparedness   ; https://www.who.int/emergencies/diseases/novel-coronavirus-2019/technical-guidance/critical-preparedness-readiness-and-response-actions-for-covid-19 
+WHO Africa cases   ; https://www.afro.who.int/news/more-600-confirmed-cases-covid-19-africa  

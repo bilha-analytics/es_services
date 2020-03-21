@@ -29,7 +29,7 @@ def tfidf_fetchQueResponse(input_text):
     if resp == 0:
         return "I'm sorry, I don't understand. Try again"
     else:
-        return "{} {} {}\n\t{} {}".format(sent_tokenz[ idx ] , sent_tokenz[ idx+1], sent_tokenz[ idx+2], sent_tokenz[idx-1], sent_tokenz[idx-2])
+        return "{}\n\t{}".format(sent_tokenz[ idx ] , sent_tokenz[ idx+1])
 
 
 def initialize():    

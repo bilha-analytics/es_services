@@ -1,25 +1,22 @@
 import util_readerz
 import nltk
 import string
+import os
+import pickle
+from termcolor import colored
 
 
 sourcez = {
     "Wikipedia 1": r"https://en.wikipedia.org/wiki/Timeline_of_the_2019%E2%80%9320_coronavirus_pandemic_in_February_2020",
     "Wikipedia 2" : r"https://en.wikipedia.org/wiki/2019%E2%80%9320_coronavirus_pandemic",
-    #"MOH intro" : r"http://www.health.go.ke/covid-19/",  # lots of pdfs to parse 
     "NM article1": r"https://www.nation.co.ke/news/Covid-19-world-struggles-to-stop-handshake/1056-5497542-a0gos4z/index.html",
     "NM article2": r"https://www.nation.co.ke/newsplex/2718262-5496412-11gimflz/index.html",
     "NM article3" : r"https://www.nation.co.ke/oped/blogs/dot9/ndemo/2274486-5492926-awxihq/index.html",
-    "Norwat article1" : r"https://www.norway.no/contentassets/ab00f23534c844bb961df1fadc9e44a8/information-note-regarding-ncovid-19-domestic-procedures-20200312_-final.pdf", 
     "Economist article1" : r"https://www.economist.com/europe/2020/02/23/italy-faces-a-sudden-surge-in-covid-19-cases",
-    "MOH press release" : r"http://www.health.go.ke/wp-content/uploads/2020/03/press-statement-19th-march.pdf", 
     "CDC Situation Summary" : r"https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/summary.html",
     "CDC Home Self-care" : r"https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/caring-for-yourself-at-home.html",
-    "CDC Facility Control" : r"https://www.cdc.gov/coronavirus/2019-ncov/infection-control/control-recommendations.html",
     "CDC Individual Control" : r"https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/steps-when-sick.html",
     "CDC Symptoms" : r"https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/symptoms.html?CDC_AA_refVal=https%3A%2F%2Fwww.cdc.gov%2Fcoronavirus%2F2019-ncov%2Fabout%2Fsymptoms.html", 
-    "CDC Clinical" : r"https://www.cdc.gov/coronavirus/2019-ncov/hcp/clinical-guidance-management-patients.html",
-    "CDC LT Prep" : r"https://www.cdc.gov/coronavirus/2019-ncov/healthcare-facilities/prevent-spread-in-long-term-care-facilities.html",
     "CDC Discontinue Isolation" : r"https://www.cdc.gov/coronavirus/2019-ncov/hcp/disposition-in-home-patients.html",
     "WHO Intro" : r"https://www.who.int/health-topics/coronavirus",
     "WHO rolling updates" :r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/events-as-they-happen",
@@ -27,7 +24,6 @@ sourcez = {
     "WHO Individual Control" : r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public",
     "WHO Preparedness" : r"https://www.who.int/emergencies/diseases/novel-coronavirus-2019/technical-guidance/critical-preparedness-readiness-and-response-actions-for-covid-19",
     "WHO Africa cases" : r"https://www.afro.who.int/news/more-600-confirmed-cases-covid-19-africa", 
-
 }
 
 dashboardz = {
@@ -38,6 +34,8 @@ dashboardz = {
 _sentz = []
 _wordz = [] 
 _vocab_lemmz = []
+_DATASET_FILE = "corpus.txt"
+_DATASOURCES_FILE = "sources_list.txt"
 
 """
     Fetch material online
@@ -46,11 +44,41 @@ _vocab_lemmz = []
 """
 def readSiteContent():
     docz = []
-    for item in sourcez.values():
-        print( "Fetching {}".format(item) ) 
-        docz.append( util_readerz.readNewsArtcile( item ) )
+    def fetch_online(docz): 
+        global sourcez
+        try:
+            tmp = {}
+            with open( _DATASOURCES_FILE, "r") as fd:
+                # sourcez = dict( (k,v) for ln.split(":") in fd.readline() ) 
+                print( colored("Opened sources list file", "yellow"))
+                for ln in fd.readlines():
+                    print( ln.strip().split(";") )
+                    k, v = ln.strip().split( ";" ) 
+                    tmp[k.strip() ] = v.strip() 
+            sourcez = tmp 
+            print( colored("Fetched sources list from file {}".format( len(sourcez) ), "yellow" ) ) 
+        except Error as e:
+            print( colored("Failed to loaded sources list from file. Using default\n{}".format(e), "red")) 
 
-    print( len(docz) )
+        for item in sourcez.values():
+            print( "Fetching {}".format(item) ) 
+            docz.append( util_readerz.readNewsArtcile( item ) )
+        
+        try:
+            pickle.dump( docz, open(_DATASET_FILE, 'wb') )
+        except:
+            pass 
+        print( colored("Fetched Online: {} docz".format(len(docz) ), 'red' ) )
+
+    if os.path.exists(_DATASET_FILE) and os.path.getsize( _DATASET_FILE ) > 0:
+        try:
+            docz = pickle.load( open(_DATASET_FILE, 'rb'))
+            print( colored("Fetched Local File: {} docz".format(len(docz) ), 'red' ) )
+        except:
+            fetch_online( docz ) 
+    else:
+        fetch_online( docz ) 
+
     
     return docz
 
