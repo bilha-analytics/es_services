@@ -104,6 +104,7 @@ def preProcessText(text):
     # prep tools   
     lemertizer = nltk.stem.WordNetLemmatizer() 
     punctuations = dict( (ord(p), None) for p in string.punctuation )
+    # can do same for numbers, acronyms, named entities if not relevant so as to improve performance
 
     # remove punctuations, change to lower case
     tokenz = nltk.word_tokenize( text.lower().translate( punctuations) ) 
