@@ -1,12 +1,10 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
-import nltk
+import nltk 
 
 import pickle 
-import traceback , sys 
 
-import zlogger, logging
+import zlogger
 
 import modelz 
 from dataSet import lemmatizeTokens
@@ -31,9 +29,8 @@ class TfidfModel( modelz.ZModel ):
     setup the TFIDF tokenizer 
     '''
     def init(self, name, removeStopWords=True): 
-        self.name = name 
-        self.model_fpath = "{}.zmd".format( self.name) 
-        self.tfidfVectorizer = TfidfVectorizer(
+        super().init(name) 
+        self.model = TfidfVectorizer(
             tokenizer = lemmatizeTokens,
             stop_words = "english" if removeStopWords else None,
             ngram_range = (1,3),             
@@ -42,22 +39,30 @@ class TfidfModel( modelz.ZModel ):
     '''
     '''
     def load(self, fpath=None):
-        fpath = self.model_fpath if None else fpath
+        # 1. model definition 
+        super().load(fpath) 
+        # 2. training data 
+        fpath = "{}.dat".format( self.model_fpath if fpath is None else fpath ) 
         try:
             with open( fpath, "rb") as fd:
-                pickle.load( self.tfidfVectorizer, fd)  
+                self.dataset = pickle.load(fd) 
+                zlogger.log("{}.dataset.load".format(self.__class__), "Dataset loaded from file successfully")                
         except:
-            zlogger.logError("{}.model.dump".format(self.__name__), "Pickle to File - {}".format(fpath) ) 
+            zlogger.logError("{}.dataset.load".format(self.__class__), "Pickle to File - {}".format(fpath) ) 
 
     '''
     '''
     def dump(self, fpath=None): 
-        fpath = self.model_fpath if None else fpath
+        # 1. model definition 
+        super().dump(fpath)
+        # 2. training data 
+        fpath = "{}.dat".format( self.model_fpath if fpath is None else fpath ) 
         try:
             with open( fpath, "wb") as fd:
-                pickle.dump( self.tfidfVectorizer, fd)  
+                pickle.dump( self.dataset, fd)  
+                zlogger.log("{}.dataset.dump".format(self.__class__), "Dataset dumped to file successfully")                
         except:
-            zlogger.logError("{}.model.dump".format(self.__name__), "Pickle to File - {}".format(fpath) ) 
+            zlogger.logError("{}.dataset.dump".format(self.__class__), "Pickle to File - {}".format(fpath) ) 
 
     '''
     '''
@@ -74,8 +79,8 @@ class TfidfModel( modelz.ZModel ):
     def predict(self, observation):                 
         sent_tokenz = self.dataset.copy()
         sent_tokenz.append( observation )       
-        tfidf = self.tfidfVectorizer.fit_transform( sent_tokenz ) 
-        
+        tfidf = self.model.fit_transform( sent_tokenz ) 
+
         valz = cosine_similarity( tfidf[-1], tfidf) 
         idx = valz.argsort()[0][-2] 
         flatz = valz.flatten()
@@ -99,15 +104,16 @@ if __name__ == "__main__":
     zlogger.log("tfidfModel.main", "Starting")
 
     src = "tfidfModel.main.test"
+    named = "TFIDF_ChatBot"
 
     st = "The quick brown fox jumped over the lazy dogs. This is an account of a lost dog. His name was Jazzy and he had 7 bones. Hey there! Okay, bye." 
 
     for ist in [True, False]:
         wt = "Without" if ist else "With"
-        zlogger.log(src, "\n{0} {1} Stop Words {0}".format("-"*7, wt ) ) 
+        zlogger.log(src, "\n\n{0} {1} Stop Words {0}".format("-"*7, wt ) ) 
 
         m = TfidfModel()
-        m.init("TFIDF_ChatBot", removeStopWords=ist) 
+        m.init(named, removeStopWords=ist) 
         m.train( st ) 
 
         zlogger.log(src, "Data: {}\nModel: {}\n".format(st, m)  ) 
@@ -116,6 +122,15 @@ if __name__ == "__main__":
         for x in xl:
             zlogger.log(src,  "Observation: {}\n\tPrediction: {}\n".format(x, m.predict(x) ) ) 
 
+
+        print( ">>>>> DUMPING ----", m.getClassName() )
+        m.dump()
+
+        m2 = TfidfModel()
+        m2.load("{}.zmd".format(named) ) 
+        
+        x = "A jumping dog he is"
+        zlogger.log(src,  "Observation: {}\n\tM2.Prediction: {}\n".format(x, m2.predict(x) ) )
 
     # zlogger.log(src,  ) 
     zlogger.log("tfidfModel.main", "Finished")

@@ -1,9 +1,12 @@
 '''
 author: bg
 goal: define model interface
-type: interface 
+type: abstract 
 refactor: class
 '''
+import zlogger
+import pickle 
+import re
 
 
 '''
@@ -32,18 +35,38 @@ class ZModel():
     '''
     '''
     def init(self, name, removeStopWords=True): 
-        raise NotImplementedError
+        self.name = name 
+        self.model_fpath = self.getModelFPath()
 
-    
+    def getModelFPath(self):
+        nm = self.getClassName() if self.name is None else self.name 
+        return "{}.zmd".format( nm ) 
+
+    def getClassName(self):
+        return re.search( '<class.*\.(.*)\'>.*', str(self.__class__) )[1]
     '''
     '''
-    def load(self, fpath):
-        raise NotImplementedError
+    def load(self, fpath=None):        
+        self.name = getClassName() if fpath is None else re.search('(.*)\.zmd', fpath)[1]
+        fpath = self.getModelFPath() if fpath is None else fpath 
+        
+        try:
+            with open( fpath, "rb") as fd:
+                self.model = pickle.load( fd) 
+                zlogger.log("{}.model.load".format(self.__class__), "Model loaded from file successfully")                
+        except:
+            zlogger.logError("{}.model.load".format(self.__class__), "Pickle to File - {}".format(fpath) ) 
 
     '''
     '''
-    def dump(self, fpath): 
-        raise NotImplementedError
+    def dump(self, fpath=None): 
+        fpath = self.model_fpath if fpath is None else fpath
+        try:
+            with open( fpath, "wb") as fd:
+                pickle.dump( self.model, fd)  
+                zlogger.log("{}.model.dump".format(self.__class__), "Model saved to file successfully")
+        except:
+            zlogger.logError("{}.model.dump".format(self.__class__), "Pickle to File - {}".format(fpath) ) 
 
     '''
     '''
