@@ -4,7 +4,7 @@ goal: Read/Fetch from different text container/storage types. Write to different
 type: util, factory
 refactor: class
 '''
-import zlogger, logging
+import zlogger
 
 import sys, traceback
 
@@ -200,22 +200,18 @@ if __name__ == "__main__":
 
 
     for et, ei, ep, ec in zip( etype, etype_i, epath, econtent):
-        print( "\n{} {} {}\n{}\n".format( "-"*7, et, "-"*7, ep ) ) 
+        print( "\n{0} {1} {0}\n{2}\n".format( "-"*7, et, ep ) ) 
         try:
             # for ln in readFrom(ep, dtype=ei) :     
             ln = readFrom(ep, dtype=ei)
             print("\n\t{}\n".format(ln) ) 
         except:
-            e = sys.exc_info()[0] 
-            zlogger.log("dataSource.main.readExample", "EXCEPT: {} - {}:: {}".format(et, ep, e), ltype=logging.ERROR ) 
-            print( traceback.format_exc() )
+            zlogger.logError("dataSource.main.readExample", "EXCEPT: {} - {}".format(et, ep) ) 
 
         try:
             writeTo(ec, ep, dtype=ei) 
         except:
-            e = sys.exc_info()[0] 
-            zlogger.log("dataSource.main.writeExample", "EXCEPT: {} - {}:: {}".format(et, ep, e), ltype=logging.ERROR ) 
-            print( traceback.format_exc() )
+            zlogger.logError("dataSource.main.writeExample", "EXCEPT: {} - {}".format(et, ep) ) 
     
     zlogger.log( "dataSource.main", "Finished") 
 

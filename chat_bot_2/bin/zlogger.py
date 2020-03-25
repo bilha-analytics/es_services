@@ -8,6 +8,7 @@ refactors: Do we want this as a class? What form; Singelton?
 '''
 
 import os
+import sys, traceback 
 from datetime import datetime
 import logging 
 from termcolor import colored
@@ -86,6 +87,17 @@ def log(src, msg, ltype=logging.INFO, appName=None):
     log = logit.get(ltype, LOGGER.info)
     log(msg_str) 
 
+'''
+Specific formatting for errors and provide stack trace on exceptions etc 
+Input: 
+    src : source of log request
+    msg : message to go with exception output 
+Return: None
+'''
+def logError(src, msg):
+    e = sys.exc_info()[0] 
+    log("{}".format(src), "{}: {}".format(msg, e), ltype=logging.ERROR ) 
+    print( traceback.format_exc() ) 
      
 
 if __name__ == "__main__":
