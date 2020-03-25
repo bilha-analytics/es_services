@@ -1,0 +1,2 @@
+**Structure**
+[ Bot Service ] --> {[UI], [ BotLogic ] --> BotModel ] --> [ DataSet ] --> [ DataSource ]}
