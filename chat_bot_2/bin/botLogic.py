@@ -67,7 +67,7 @@ class BotLogicFlow():
                 was_que = False
                 break
             elif word in self.THANKS_INPUT:
-                response += random.choice( self.THANKS_RESPONSE )
+                response = random.choice( self.THANKS_RESPONSE )
                 was_que = False
                 break
             elif word in self.EXIT_INPUT:
