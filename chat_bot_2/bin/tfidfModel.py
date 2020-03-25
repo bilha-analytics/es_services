@@ -94,6 +94,8 @@ class TfidfModel( modelz.ZModel ):
             return "{}\n\t{}".format(sent_tokenz[ idx ] , sent_tokenz[ idx+1])
 
     '''
+    Input: 
+        train_x : a list of sentences
     '''
     def train(self, train_x, train_y=None, test_x=None, test_y=None): 
         self.dataset = train_x if isinstance(train_x, list ) else nltk.sent_tokenize( train_x )
