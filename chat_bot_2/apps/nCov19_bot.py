@@ -4,6 +4,8 @@ goal: 1. Train ncov19 @ TFIDF model. 2. Interact with it
 type: service session 
 refactor: class, 
 '''
+import sys
+sys.path.append("../bin")
 
 import zlogger
 from botLogic import BotLogicFlow
@@ -23,12 +25,12 @@ app_name = 'nCOV_bot'
 Fetch text from web page
 Setup TFIDF with that data
 '''
-def initiailizeBotEnv():
+def initiailizeBotEnv(src_path, src_type=dataSource.zFILE ):
     global tfidif_model 
     src = "nCoV19_bot.initiailze"
+
     # 1. fetch data text 
-    src = "https://en.wikipedia.org/wiki/Coronavirus_disease_2019"
-    list_sentz = dataSource.readFrom( src, dataSource.zARTICLE ) 
+    list_sentz = dataSource.readFrom( src_path, src_type)   
     zlogger.log(src, "Loaded data text of size {}".format(len(list_sentz) ) ) 
     
     # 2. initialize and train model 
@@ -70,7 +72,8 @@ def runBot():
 
 
 if __name__ == "__main__":
-    initiailizeBotEnv()
+    # initiailizeBotEnv("https://en.wikipedia.org/wiki/Coronavirus_disease_2019",      dataSource.zARTICLE)
+    initiailizeBotEnv("presidential address_KE_25_03_nCoV19.txt")
     runBot()
 
 
