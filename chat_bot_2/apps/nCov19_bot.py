@@ -19,6 +19,8 @@ from termcolor import colored
 
 tfidif_model  = None
 app_name = 'nCOV_bot'
+faq_path = "https://www.who.int/news-room/q-a-detail/q-a-coronaviruses"
+faq_typ = dataSource.zARTICLE 
 
 '''
 1. TRAIN 
@@ -73,7 +75,7 @@ def runBot():
 
 if __name__ == "__main__":
     # initiailizeBotEnv("https://en.wikipedia.org/wiki/Coronavirus_disease_2019",      dataSource.zARTICLE)
-    initiailizeBotEnv("presidential address_KE_25_03_nCoV19.txt")
+    initiailizeBotEnv(faq_path, faq_typ)
     runBot()
 
 
