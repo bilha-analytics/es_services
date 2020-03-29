@@ -91,7 +91,8 @@ class TfidfModel( modelz.ZModel ):
         if resp == 0:
             return None
         else:
-            return "{}\n\t{}".format(sent_tokenz[ idx ] , sent_tokenz[ idx+1])
+            # return "{}\n\t{}".format(sent_tokenz[ idx ] , sent_tokenz[ idx+1])
+            return "{}".format(sent_tokenz[ idx ] )
 
     '''
     Input: 

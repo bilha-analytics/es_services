@@ -19,8 +19,14 @@ from termcolor import colored
 
 tfidif_model  = None
 app_name = 'nCOV_bot'
-faq_path = "https://www.who.int/news-room/q-a-detail/q-a-coronaviruses"
-faq_typ = dataSource.zARTICLE 
+# faq_path = "https://www.health.nsw.gov.au/Infectious/alerts/Pages/coronavirus-faqs.aspx" #"https://www.who.int/news-room/q-a-detail/q-a-coronaviruses"
+# faq_typ = dataSource.zARTICLE 
+
+faq_gsheet_path = ('1EuvcPe9WXSQTsmSqhq0LWJG4xz2ZRQ1FEdnQ_LQ-_Ks', 'FAQ responses!A1:G1000')
+faq_gsheet_typ = dataSource.zGSHEET
+faq_path = "FAQ.txt"
+faq_typ = dataSource.zFILE
+
 
 '''
 1. TRAIN 
@@ -72,11 +78,30 @@ def runBot():
     zlogger.log(src, "Finished")
 
 
+## helper at fetch paragraphs in FAQ Gsheet
+def unpack_FaqGsheet():     
+    gsheet = dataSource.readFrom( faq_gsheet_path, dtype=faq_gsheet_typ)[1: ] ## ignore header row
+
+    print( gsheet[0:2] )
+
+    # responses = gsheet[,3]## unpack responses only 
+    responses = []
+    for row in gsheet:
+        responses.append( row[2]) 
+
+    dataSource.writeTo(responses, dpath=faq_path)  
+
+
+
+
 
 if __name__ == "__main__":
     # initiailizeBotEnv("https://en.wikipedia.org/wiki/Coronavirus_disease_2019",      dataSource.zARTICLE)
-    initiailizeBotEnv(faq_path, faq_typ)
-    runBot()
+
+    unpack_FaqGsheet()
+
+    # initiailizeBotEnv(faq_path, faq_typ)
+    # runBot()
 
 
 

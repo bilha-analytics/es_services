@@ -6,13 +6,22 @@ refactor: class
 '''
 import zlogger
 
-import sys, traceback
+import sys, traceback, os 
 
 import pickle, json
 from PyPDF2 import PdfFileReader as pdf 
 from newspaper import Article
 import newspaper
 import urllib.request as url_req
+
+# #GSheet read using Twilio opt
+# import gspread
+# from oauth2client.service_account import ServiceAccountCredentials
+
+#GSheet read using TWDS Opt
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow, Flow 
+from google.auth.transport.requests import Request 
 
 '''
 Types of data source handlers 
@@ -23,6 +32,7 @@ zARTICLE = 2
 zNESTED_ARTICLES = 3
 zPDF = 4
 zSERIALIZED = 5
+zGSHEET = 6
 zFILE = 10
 
 MODE_READ = 1
@@ -145,6 +155,55 @@ def doFile(dpath, mode, content=None):
     return results
 
 
+## Case GSheet read write 
+def doGSheet(dpath, mode, content=None):
+    results = None
+
+    if mode == MODE_WRITE:
+        raise NotImplementedError
+    elif mode == MODE_APPEND:
+        raise NotImplementedError 
+    else: 
+        results = gsheetRead_GoogleWay( dpath )
+    return results 
+
+# def gsheetRead_twilioOpt(dpath):    
+#     scope = ['https://www.googleapis.com/auth/spreadsheets']
+#     creds = ServiceAccountCredentials.from_json_keyfile_name('gsheet_get.json', scope)
+#     clt = gspread.authorize( creds ) 
+#     gsheet = clt.open( dpath ).sheet1
+#     return gsheet.get_all_records()
+
+## the Google Py API Way of reading sheets
+def gsheetRead_GoogleWay(dpath):
+    results = None
+    
+    scope =  ['https://www.googleapis.com/auth/spreadsheets'] 
+
+    creds = None
+    if os.path.exists( 'token.pickle'):
+        with open( 'token.pickle', 'rb') as fd:
+            creds = pickle.load( fd ) 
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh( Request() ) 
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file( 'gsheet_get.json', scope) 
+            creds = flow.run_local_server(port=0)
+        with open('token.pickle', 'wb') as fd:
+            pickle.dump( creds, fd) 
+    
+    service = build('sheets', 'v4', credentials=creds, cache_discovery=False) 
+
+    sheet = service.spreadsheets()
+    reader = sheet.values().get(spreadsheetId=dpath[0], range=dpath[1]).execute() 
+    
+    # print( '>>>>> is JSON>=?',  reader )
+
+    results = reader.get('values', None)  
+
+    return results 
+             
 ### ----------------------------------------------- 
 
 
@@ -154,6 +213,7 @@ STREAMZ = {
     zNESTED_ARTICLES : doWebSite,
     zPDF : doPdf,
     zSERIALIZED : doPickle ,
+    zGSHEET : doGSheet, 
 }# default is doFile 
 
 #TODO: define url to resource 
@@ -192,11 +252,15 @@ def writeTo(content, dpath, dtype=zFILE, mode=MODE_WRITE):
 if __name__ == "__main__":
     zlogger.log( "dataSource.main", "Starting") 
 
+    
+    arange = 'FAQ responses!A1:G1000'
+    gsheet_id = '1EuvcPe9WXSQTsmSqhq0LWJG4xz2ZRQ1FEdnQ_LQ-_Ks' #covid_19_faq
+    # gsheet_id = 'covid_19_faq'
 
-    etype = ['Text File', 'PDF', 'Article', 'Site', 'Serialized']
-    etype_i = [zFILE, zPDF, zARTICLE, zNESTED_ARTICLES, zSERIALIZED]
-    epath = ['example.txt', 'example.pdf', 'https://www.nation.co.ke/counties/nairobi/Police-kill-ATM-heist-mastermind/1954174-5503356-aodphx/index.html', 'https://www.standardmedia.co.ke/corporate/news', 'example.byt']
-    econtent = ['The quick brown fox jumper over the lazy dogs.'*7, None, None, None, dict((k, v) for k, v in zip(etype, epath))]
+    etype = ['Text File', 'PDF', 'Article', 'Site', 'Serialized', 'GSheet']
+    etype_i = [zFILE, zPDF, zARTICLE, zNESTED_ARTICLES, zSERIALIZED, zGSHEET]
+    epath = ['example.txt', 'example.pdf', 'https://www.nation.co.ke/counties/nairobi/Police-kill-ATM-heist-mastermind/1954174-5503356-aodphx/index.html', 'https://www.standardmedia.co.ke/corporate/news', 'example.byt', (gsheet_id, arange) ]
+    econtent = ['The quick brown fox jumper over the lazy dogs.'*7, None, None, None, dict((k, v) for k, v in zip(etype, epath)), None]
 
 
     for et, ei, ep, ec in zip( etype, etype_i, epath, econtent):
