@@ -234,7 +234,7 @@ def unpack_FaqGsheet(db_path, training_set, removeHeader=True):
     start_idx = 1 if removeHeader else 0
     ## 1. unpack responses set @ retrieval 
     gsheet_faq_db = {} 
-    tmp = readFrom( db_path, dtype=zGSHEET )[start_idx]: ] ## ignore header row TODO: refactor at caller to decide
+    tmp = readFrom( db_path, dtype=zGSHEET )[start_idx: ] ## ignore header row TODO: refactor at caller to decide
     for row in tmp:
         if len(row) > 2:
             gsheet_faq_db[ row[1] ] = row[2] 
