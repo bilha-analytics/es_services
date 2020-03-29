@@ -22,11 +22,11 @@ app_name = 'nCOV_bot'
 # faq_path = "https://www.health.nsw.gov.au/Infectious/alerts/Pages/coronavirus-faqs.aspx" #"https://www.who.int/news-room/q-a-detail/q-a-coronaviruses"
 # faq_typ = dataSource.zARTICLE 
 
-faq_path = ('1EuvcPe9WXSQTsmSqhq0LWJG4xz2ZRQ1FEdnQ_LQ-_Ks', 'FAQ responses!A1:G1000')
-faq_typ = dataSource.zGSHEET
+faq_path = [ ('1EuvcPe9WXSQTsmSqhq0LWJG4xz2ZRQ1FEdnQ_LQ-_Ks', 'FAQ responses!A1:G1000'), ('1EuvcPe9WXSQTsmSqhq0LWJG4xz2ZRQ1FEdnQ_LQ-_Ks', 'Classify_Phrases!A1:G1000')]
+faq_typ = dataSource.zGSHEET_FAQ
+
 gsheet_faq_db = None 
 gsheet_faq_training_set_db = None 
-
 
 '''
 1. TRAIN 
@@ -34,13 +34,14 @@ Fetch text from web page
 Setup TFIDF with that data
 '''
 def initiailizeBotEnv(src_path, src_type=dataSource.zFILE , nostopwords=True): 
-    global tfidif_model 
+    global tfidif_model , gsheet_faq_db, gsheet_faq_training_set_db 
+
     src = "nCoV19_bot.initiailze"
 
     # 1. fetch data text 
     list_sentz = None 
-    if src_type == dataSource.zGSHEET:
-        unpack_FaqGsheet(src_path) 
+    if src_type == dataSource.zGSHEET_FAQ:
+        gsheet_faq_db, gsheet_faq_training_set_db = dataSource.doGSheet_FAQ(src_path, src_type)
         list_sentz = list( gsheet_faq_training_set_db.keys()  ) 
     else:
         list_sentz = dataSource.readFrom( src_path, src_type)   
@@ -102,8 +103,7 @@ def unpack_FaqGsheet(dpath):
         if len(row) > 2:
             gsheet_faq_db[ row[1] ] = row[2]
 
-    ## 2. unpack training set    
-    training_question_set = ('1EuvcPe9WXSQTsmSqhq0LWJG4xz2ZRQ1FEdnQ_LQ-_Ks', 'Classify_Phrases!A1:G1000')
+    ## 2. unpack training set        
     gsheet_faq_training_set_db = {}
     tmp = dataSource.readFrom( training_question_set, dtype=dataSource.zGSHEET )[1: ]
     for row in tmp:
@@ -117,7 +117,7 @@ if __name__ == "__main__":
     # initiailizeBotEnv("https://en.wikipedia.org/wiki/Coronavirus_disease_2019",      dataSource.zARTICLE)
     nostopwords = False
     initiailizeBotEnv(faq_path, faq_typ, nostopwords=nostopwords)
-    runBot( faq_typ == dataSource.zGSHEET ) 
+    runBot( faq_typ == dataSource.zGSHEET_FAQ ) 
 
 
 

@@ -33,6 +33,7 @@ zNESTED_ARTICLES = 3
 zPDF = 4
 zSERIALIZED = 5
 zGSHEET = 6
+zGSHEET_FAQ = 7 # fixed structure setup. see nCoV19 example 
 zFILE = 10
 
 MODE_READ = 1
@@ -203,7 +204,50 @@ def gsheetRead_GoogleWay(dpath):
     results = reader.get('values', None)  
 
     return results 
-             
+
+
+def doGSheet_FAQ(dpath, mode, content=None):
+    results = None
+    
+    resp_db, training_db = dpath 
+
+    if mode == MODE_WRITE:
+        raise NotImplementedError
+    elif mode == MODE_APPEND:
+        raise NotImplementedError 
+    else: 
+        results = unpack_FaqGsheet( resp_db, training_db  )
+
+    return results 
+
+## helper at fetch paragraphs in FAQ Gsheet
+'''
+input:
+    db_path: faq retrieval Gsheet database path as (sheetID, sheetName_and_range). Format = set{Que_string, Category/Class, Response, Src_url as optional}
+    training_set: user input questions database path as as (sheetID, sheetName_and_range). Format = list{Que_string, Category/Class}
+return:
+    gsheet_faq_db : response retrievel dict(category, response_paragrah)
+    gsheet_faq_training_set_db: training user_input questions dict(que_input, category)
+
+'''
+def unpack_FaqGsheet(db_path, training_set):     
+    ## 1. unpack responses set @ retrieval 
+    gsheet_faq_db = {} 
+    tmp = readFrom( db_path, dtype=zGSHEET )[1: ] ## ignore header row
+    for row in tmp:
+        if len(row) > 2:
+            gsheet_faq_db[ row[1] ] = row[2] 
+
+    ## 2. unpack training set        
+    gsheet_faq_training_set_db = {}
+    tmp = readFrom( training_set, dtype=zGSHEET )[1: ]
+    for row in tmp:
+        if len(row) > 1:
+            gsheet_faq_training_set_db[ row[0] ] = row[1] 
+
+    return gsheet_faq_db, gsheet_faq_training_set_db 
+
+
 ### ----------------------------------------------- 
 
 
@@ -214,6 +258,7 @@ STREAMZ = {
     zPDF : doPdf,
     zSERIALIZED : doPickle ,
     zGSHEET : doGSheet, 
+    zGSHEET_FAQ :  doGSheet_FAQ, 
 }# default is doFile 
 
 #TODO: define url to resource 
