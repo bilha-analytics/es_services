@@ -2,7 +2,7 @@
 author: bg
 goal: define model interface
 type: abstract 
-refactor: class
+refactor: class, @ using preset dbs structs e.g. at GSheet
 '''
 import zlogger
 import pickle 

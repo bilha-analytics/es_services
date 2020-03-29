@@ -32,6 +32,9 @@ class BotLogicFlow():
     THANKS_INPUT = ['thanks', 'sounds good', 'asante', 'shukurani', 'shukran']
     THANKS_RESPONSE = ["you're welcome", "glad to be of help", "anytime",  'happy to be of assistance']
 
+    RCODE_KNOWN_RESPONSE = 200
+    RCODE_LEARNT_RESPONSE = 210
+    RCODE_EXIT_RESPONSE = -99
 
     ## AVAILABLE LEARNING MODELS 
     MODEL_TFIDF = 1 # is default?? 
@@ -55,7 +58,7 @@ class BotLogicFlow():
 
     def getResponse(self, user_input_text): 
         response = None
-        rcode = 200
+        rcode = self.RCODE_KNOWN_RESPONSE
 
         key_words = lemmatizeTokens( user_input_text ) 
         
@@ -72,11 +75,12 @@ class BotLogicFlow():
                 break
             elif word in self.EXIT_INPUT:
                 response = random.choice( self.THANKS_RESPONSE )+". "+random.choice( self.EXIT_RESPONSE )
-                rcode = -99 
+                rcode = self.RCODE_EXIT_RESPONSE 
                 return response, rcode 
 
         if was_que:
             response = self.model.predict( user_input_text ) 
+            rcode = self.RCODE_LEARNT_RESPONSE 
 
         return response, rcode 
 
