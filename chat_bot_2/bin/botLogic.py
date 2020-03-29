@@ -13,12 +13,24 @@ import random
 
 import zlogger
 
+
+## AVAILABLE LEARNING MODELS 
+## TODO: refactor 
+MODEL_TFIDF = 1 # is default?? 
+
+AVAILABLE_MODELZ = {
+    MODEL_TFIDF : TfidfModel, 
+}
+
+
+
 '''
 
 Expectations
   - Load ES model to be used. Can choose type 
   - Receive user input and fetch appropriate response. Has defaults 
 '''
+
 
 class BotLogicFlow():
 
@@ -35,15 +47,6 @@ class BotLogicFlow():
     RCODE_KNOWN_RESPONSE = 200
     RCODE_LEARNT_RESPONSE = 210
     RCODE_EXIT_RESPONSE = -99
-
-    ## AVAILABLE LEARNING MODELS 
-    MODEL_TFIDF = 1 # is default?? 
-
-    AVAILABLE_MODELZ = {
-        MODEL_TFIDF : TfidfModel, 
-    }
-
-
     '''
     Assumes that model has already been trained 
     '''
@@ -52,7 +55,7 @@ class BotLogicFlow():
 
     def loadModel(self, mtype, mpath):
         self.model_type = mtype
-        mclass = self.AVAILABLE_MODELZ.get(mtype, TfidfModel) 
+        mclass = AVAILABLE_MODELZ.get(mtype, TfidfModel) 
         self.model = mclass() 
         self.model.load(mpath) 
 

@@ -230,17 +230,18 @@ return:
     gsheet_faq_training_set_db: training user_input questions dict(que_input, category)
 
 '''
-def unpack_FaqGsheet(db_path, training_set):     
+def unpack_FaqGsheet(db_path, training_set, removeHeader=True):     
+    start_idx = 1 if removeHeader else 0
     ## 1. unpack responses set @ retrieval 
     gsheet_faq_db = {} 
-    tmp = readFrom( db_path, dtype=zGSHEET )[1: ] ## ignore header row
+    tmp = readFrom( db_path, dtype=zGSHEET )[start_idx]: ] ## ignore header row TODO: refactor at caller to decide
     for row in tmp:
         if len(row) > 2:
             gsheet_faq_db[ row[1] ] = row[2] 
 
     ## 2. unpack training set        
     gsheet_faq_training_set_db = {}
-    tmp = readFrom( training_set, dtype=zGSHEET )[1: ]
+    tmp = readFrom( training_set, dtype=zGSHEET )[start_idx: ]
     for row in tmp:
         if len(row) > 1:
             gsheet_faq_training_set_db[ row[0] ] = row[1] 

@@ -81,7 +81,7 @@ class TfidfModel( modelz.ZModel ):
 
     Input: a doc/sentence observation to find matching docs for
     Return: Doc with highest matching score or None if nothing found
-    TODO: set a threshold for matching scores; do just use max
+    TODO: set a threshold for matching scores; don't just use max
     '''
     def predict(self, observation):                 
         sent_tokenz = self.dataset.copy()

@@ -8,16 +8,18 @@ import sys
 sys.path.append("../bin")
 
 import zlogger
+import botLogic
 from botLogic import BotLogicFlow
 from tfidfModel import TfidfModel 
 
 import dataSet
 import dataSource 
+import modelz 
 
 from termcolor import colored 
 
 
-tfidif_model  = None
+model  = None
 app_name = 'nCOV_bot'
 # faq_path = "https://www.health.nsw.gov.au/Infectious/alerts/Pages/coronavirus-faqs.aspx" #"https://www.who.int/news-room/q-a-detail/q-a-coronaviruses"
 # faq_typ = dataSource.zARTICLE 
@@ -28,13 +30,15 @@ faq_typ = dataSource.zGSHEET_FAQ
 gsheet_faq_db = None 
 gsheet_faq_training_set_db = None 
 
+# model types
+
 '''
 1. TRAIN 
 Fetch text from web page
 Setup TFIDF with that data
 '''
-def initiailizeBotEnv(src_path, src_type=dataSource.zFILE , nostopwords=True): 
-    global tfidif_model , gsheet_faq_db, gsheet_faq_training_set_db 
+def initiailizeBotEnv(src_path, src_type=dataSource.zFILE, model_type=botLogic.MODEL_TFIDF, nostopwords=True): 
+    global model , gsheet_faq_db, gsheet_faq_training_set_db 
 
     src = "nCoV19_bot.initiailze"
 
@@ -49,26 +53,27 @@ def initiailizeBotEnv(src_path, src_type=dataSource.zFILE , nostopwords=True):
     zlogger.log(src, "Loaded data text of size {}".format(len(list_sentz) ) ) 
     
     # 2. initialize and train model 
-    tfidif_model = TfidfModel()
-    tfidif_model.init( app_name, removeStopWords=nostopwords ) 
-    tfidif_model.train( list_sentz ) 
-    zlogger.log(src, "Initiailized & Trained TF-IDF Model {}".format(tfidif_model) ) 
+    model = botLogic.AVAILABLE_MODELZ.get(model_type, TfidfModel)
+    model = model() 
+    model.init( app_name, removeStopWords=nostopwords ) 
+    model.train( list_sentz ) 
+    zlogger.log(src, "Initiailized & Trained TF-IDF Model {}".format(model) ) 
 
     # 3. save model
-    tfidif_model.dump() 
+    model.dump() 
 
 '''
 2. INTERACT 
 RunBot Logic and UI
 '''
-def runBot(isGsheetDB=False): 
+def runBot(isGsheetDB=False, model_type=botLogic.MODEL_TFIDF,): 
     src = "nCoV19.runBot"    
     
     zlogger.log(src, "Starting")
 
     # 1. setup bot
     bot = BotLogicFlow()
-    bot.initializeModel( bot.MODEL_TFIDF, "{}.zmd".format(app_name) )
+    bot.initializeModel( model_type,  "{}.zmd".format(app_name) )
 
     #2. run bot 
     while( 1 ):

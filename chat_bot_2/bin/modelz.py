@@ -44,7 +44,10 @@ class ZModel():
 
     def getClassName(self):
         return re.search( '<class.*\.(.*)\'>.*', str(self.__class__) )[1]
+    
     '''
+    Load unserialized trained model for reuse
+    Filename = <app_name>.zmd
     '''
     def load(self, fpath=None):        
         self.name = getClassName() if fpath is None else re.search('(.*)\.zmd', fpath)[1]
@@ -58,6 +61,8 @@ class ZModel():
             zlogger.logError("{}.model.load".format(self.__class__), "Pickle to File - {}".format(fpath) ) 
 
     '''
+    Serialize and save to file a trained model for reuse 
+    Filename = <app_name>.zmd 
     '''
     def dump(self, fpath=None): 
         fpath = self.model_fpath if fpath is None else fpath
@@ -82,6 +87,7 @@ class ZModel():
     '''
     def train(self, train_x, train_y, test_x, test_y):
         raise NotImplementedError
+    
     '''
     '''
     def setTrainingHandler(self, training_handler): 
