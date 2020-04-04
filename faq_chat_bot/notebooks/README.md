@@ -1,3 +1,1 @@
-# Corana chat bot 
-
 - [nCoV19 Chat bot EDA and Modelling](https://nbviewer.jupyter.org/github/bilha-analytics/es_services/blob/2b24aeb276e3cc11c2aa08aa275b7c0cdb651684/faq_chat_bot/notebooks/nCoV-19_faq_chat_bot.ipynb)
