@@ -39,7 +39,7 @@ class ZBotLogicFlow():
     GREETINGZ_INPUT = ["hi", "hello", "greetings", "sasa", "mambo", 'hey', "niaje", "vipi", "salut", "what's up", "are you there"]
     GREETINGZ_RESPONSE = [ "hi", "hey", "hello", "how may i help you today", "what can i do for you", "nice to hear from you", "how are you"]
 
-    EXIT_INPUT = ["bye", "later", "baadaye", "quit"]
+    EXIT_INPUT = ["bye", "later", "baadaye", "quit", 'laterz']
     EXIT_RESPONSE = ["bye", 'later', 'talk again soon', 'baadaye', 'great chatting with you']
 
     THANKS_INPUT = ['thanks', 'sounds good', 'asante', 'shukurani', 'shukran']
