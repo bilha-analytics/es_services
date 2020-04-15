@@ -1,0 +1,70 @@
+<div class="container-fluid border p-0 m-0">
+    <div class="embed-responsive embed-responsive-1by1">
+        <iframe id='jhumap' src="//arcgis.com/apps/Embed/index.html?webmap=14aa9e5660cf42b5b4b546dec6ceec7c&extent=77.3846,11.535,163.5174,52.8632&center=28.8189834,-2.5117154&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"  
+            width="650" height="400" frameborder="0" scrolling="no" 
+            marginheight="0" marginwidth="0" title="2019-nCoV" >
+        </iframe>
+    </div>
+    <small class=""> <strong> Credits:</strong> John Hopkins University </small>
+</div> 
+        
+
+<div class="card-body pl-0">
+    <h6 class="card-title"> Kenya Summary <small> - {{ ke_data['Date']}}</small> </h6> 
+    <ul class="card-text"><small>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> New Confirmed </span>
+            <span class="badge numberz"> {{ ke_data['NewConfirmed']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> New Deaths </span>
+            <span class="badge numberz"> {{ ke_data['NewDeaths']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> New Recovered </span>
+            <span class="badge numberz"> {{ ke_data['NewRecovered']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> Total Confirmed </span>
+            <span class="badge numberz"> {{ ke_data['TotalConfirmed']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> Total Deaths </span>
+            <span class="badge numberz"> {{ ke_data['TotalDeaths']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> Total Recovered </span>
+            <span class="badge numberz"> {{ ke_data['TotalRecovered']}}</span>
+        </li>
+    </small> </ul>
+</div>
+
+<div class="card-body pl-0 mt-1 pt-0">
+    <h6 class="card-title"> Global Summary </h6> 
+    <ul class="card-text"> <small> 
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> New Confirmed </span>
+            <span class="badge numberz"> {{ glb_data['NewConfirmed']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> New Deaths </span>
+            <span class="badge numberz"> {{ glb_data['NewDeaths']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> New Recovered </span>
+            <span class="badge numberz"> {{ glb_data['NewRecovered']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> Total Confirmed </span>
+            <span class="badge numberz"> {{ glb_data['TotalConfirmed']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> Total Deaths </span>
+            <span class="badge numberz"> {{ glb_data['TotalDeaths']}}</span>
+        </li>
+        <li class="d-flex justify-content-between alig-items-center"> 
+            <span class="text-muted"> Total Recovered </span>
+            <span class="badge numberz"> {{ glb_data['TotalRecovered']}}</span>
+        </li>
+    </small> </ul>
+</div>
