@@ -1,0 +1,48 @@
+{% extends 'layout_base.html' %}
+
+{% block app_layout%}
+<div class="container-fluid p-1 my-1">
+    {% include 'widget_tab_navbar_fixed.html' %}
+
+    <span class="mt-3 p-1"></span>    
+    <div class="tab-content" id='tabz'>
+        <div class="tab-pane container active" id="homez">
+            {% include 'widget_chat_box.html' %}
+        </div>
+        
+        <div class="tab-pane container " id="mapz">
+            {% include 'widget_jhu_map.html' %}    
+        </div>
+        
+        <div class="tab-pane container " id="aboutz">
+            {% include 'widget_about.html' %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+ 
+{% block scripterz %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        document.location.hash = '#{{ scrollToAnchor }}'; 
+        document.getElementById('askBot').focus(); 
+    });
+
+
+    $(document).ready(function(){
+
+        //full screen it
+        document.documentElement.requestFullscreen()
+
+        $(".numberz").each(function(){  
+        });
+
+        document.location.hash = '#{{ scrollToAnchor }}'; 
+        
+        document.getElementById('askBot').focus(); 
+    }); 
+
+</script>  
+{% endblock %}
