@@ -5,6 +5,7 @@
   - Lemmatization Vs Stemming Vs neither
   - Bag-of-words/Counts Vs TF-IDF 
 - Models
+  - Cosine Similarity 
   - Random forest 
   - Naive Bayes
   - MLP neural net Vs RNN Vs LSTM <<<< classifcation Vs sequence implications 
