@@ -1,5 +1,16 @@
 # ES Services
 
+- Model with different learning models and different text encoding approaches
+- Encoding approaches
+  - Lemmatization Vs Stemming Vs neither
+  - Bag-of-words/Counts Vs TF-IDF 
+- Models
+  - Random forest 
+  - Naive Bayes
+  - MLP neural net Vs RNN Vs LSTM <<<< classifcation Vs sequence implications 
+
+Order: From oldest (less knowledge to more knowledge) 
+
 - [nCoV19 Chat bot Model Training](https://nbviewer.jupyter.org/github/bilha-analytics/es_services/blob/c4bef29899a200f988d08808ea53a748b4108240/faq_chat_bot/notebooks/nCoV-19_faq_chatbot-Part3.ipynb)
 
 
